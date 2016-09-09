@@ -9,3 +9,5 @@
 
 This package provides several handful R functions in Julia.
 The aim is to make a better life for users familiar with R but not a translation of R base functions. So functions could be similar but may not be exactly the same.
+
+This package is still under development. All feature requests and comments are welcome.
