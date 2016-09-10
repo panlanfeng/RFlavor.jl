@@ -3,3 +3,4 @@ StatsBase
 Distributions
 DataArrays
 DataFrames
+Compat

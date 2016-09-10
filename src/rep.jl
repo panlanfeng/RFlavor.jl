@@ -8,7 +8,7 @@ Repeat each elements of `x` for `each` times, and then repeat the whole vector f
 * `times` is an integer.
 
 #Note
-`rep(1:4, each=1:4)` does not work! Use `rep(1:4, 1:4)` instead.
+`rep(1:4, each=2)` does not work! Use `rep(1:4, 1:4)` instead.
 #Example
 ```
 rep(1:4, 1:4, 2)
@@ -29,9 +29,9 @@ function rep{T <: Integer}(x::AbstractVector, each::AbstractVector{T}, times::In
             i += 1
         end
     end
-    return repeat(res, outer=times)
+    return Compat.repeat(res, outer=times)
 end
 
-rep(x::AbstractVector, each::Integer, times::Integer=1) = repeat(x; inner=each, outer=times)
+rep(x::AbstractVector, each::Integer, times::Integer=1) = Compat.repeat(x; inner=each, outer=times)
 #There seems no way to allow each to be union of vector and integer
-rep{T<:Integer}(x::AbstractVector; each::AbstractVector{T} = ones(Int, x), times::Integer = 1) = rep(x, each, times)
+rep{T<:Integer}(x::AbstractVector; each::AbstractVector{T} = ones(Int, length(x)), times::Integer = 1) = rep(x, each, times)
