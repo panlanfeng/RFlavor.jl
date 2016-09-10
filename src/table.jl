@@ -7,7 +7,8 @@ function as_string(x)
     sprint(showcompact, x)
 end
 function as_string(x::AbstractArray)
-    broadcast(as_string, x)
+    #broadcast(as_string, x)
+    [sprint(showcompact, ix) for ix in x]
 end
 
 """
