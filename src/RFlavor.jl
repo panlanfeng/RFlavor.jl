@@ -11,7 +11,7 @@ export show
 import Base.isempty
 export isempty
 
-export rep, table, asstring
+export rep, table, asstring, outer, duplicated
 
 include("rep.jl")
 include("table.jl")
@@ -20,4 +20,6 @@ include("headtail.jl")
 include("is.jl")
 include("range.jl")
 include("dim.jl")
+include("outer.jl")
+include("duplicated.jl")
 end # module
