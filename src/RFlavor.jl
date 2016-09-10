@@ -14,4 +14,5 @@ export rep, table, asstring
 include("rep.jl")
 include("table.jl")
 include("expandgrid.jl")
+include("headtail.jl")
 end # module
