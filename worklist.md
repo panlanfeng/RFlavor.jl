@@ -1,0 +1,24 @@
+- [ ] *apply
+- [ ] all.equal
+- [ ] args
+- [x] datarange
+- [x] expand.grid
+- [ ] factor, levels, relevel
+- [ ] findInterval
+- [ ] identical
+- [ ] invisible?
+- [ ] list
+- [ ] missing
+- [ ] setequal
+- [ ] str
+- [ ] sweep
+- [ ] switch
+- [x] table
+- [ ]unlist
+- [x] ncol
+- [x] nrow
+- [x] outer
+- [x] rep
+- [x] head
+- [x] tail
+- [x] duplicated
