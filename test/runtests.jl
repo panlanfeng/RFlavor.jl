@@ -5,3 +5,5 @@ using Base.Test
 include("tabletest.jl")
 include("reptest.jl")
 include("expandgridtest.jl")
+include("outertest.jl")
+include("duplicatedtest.jl")
