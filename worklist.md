@@ -1,3 +1,5 @@
+## This is a list of functions to be included in the RFlavor package. Checked ones have been implemented.
+
 - [ ] *apply
 - [ ] all.equal
 - [ ] args
@@ -6,7 +8,7 @@
 - [ ] factor, levels, relevel
 - [ ] findInterval
 - [ ] identical
-- [ ] invisible?
+- [ ] invisible
 - [ ] list
 - [ ] missing
 - [ ] setequal
@@ -14,7 +16,7 @@
 - [ ] sweep
 - [ ] switch
 - [x] table
-- [ ]unlist
+- [ ] unlist
 - [x] ncol
 - [x] nrow
 - [x] outer
