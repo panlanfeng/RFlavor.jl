@@ -1,7 +1,7 @@
 
 """
 # Description
-‘duplicated()’ determines which elements of a vector or data frame
+`duplicated()` determines which elements of a vector or data frame
 are duplicates of elements with smaller subscripts, and returns a
 logical vector indicating which elements (rows) are duplicates.
 
@@ -9,12 +9,14 @@ logical vector indicating which elements (rows) are duplicates.
 * `x`: a vector or a data frame
         
 Example:
+```
 duplicated([1,2,2,3,4,1])
 duplicated(['a', 'b', 'c', 'c', 'd'])
 x=[1 2; 2 3; 1 2; 3 4; 1 2]
 duplicated(x)
 df = DataFrame(x=[1,2,1,2,3], y =[2,1,2,1,2])
 duplicated(df)
+```
 """
 
 function duplicated(x::Vector)
