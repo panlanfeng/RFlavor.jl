@@ -1,14 +1,16 @@
 """
 # Description
 Given a vector of non-decreasing breakpoints in `vec`, find the
-     interval containing each element of `x`. Default is left most interval is closed.
+interval containing each element of `x`. Default is left most interval closed.
 # Example
+```
 findinterval(0:5, 1:4)
 findinterval(1, 1:2)
 findinterval(1, [0.5, 1, 2])
+```
 """
 
-function findinterval{T <: Number}(x::AbstractVector{T}, vec::AbstractVector{T})
+function findinterval{T<:Number}(x::AbstractVector{T}, vec::AbstractVector{T})
     if !issorted(vec)
         error("Error in findInterval:
           'vec' must be sorted non-decreasingly.")
