@@ -24,6 +24,7 @@ end
 outer(1:4, 1:4, tmp2, 2.0)
 ```
 """
-function outer(x::AbstractArray, y::AbstractArray, FUN::Function = *, args...; kwargs...)
+function outer(x::AbstractArray, y::AbstractArray, FUN::Function, args...; kwargs...)
     [FUN(i, j, args...; kwargs...) for i in x, j in y]
 end
+outer(x::AbstractArray, y::AbstractArray, args...; FUN::Function=*, kwargs...) = outer(x, y, FUN, args...; kwargs...)
