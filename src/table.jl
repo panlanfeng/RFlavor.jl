@@ -1,10 +1,13 @@
 """
-    asstring(x)
+    as_string(x)
 
 Convert any array `x` into a `String` Matrix.
 """
-function asstring(x::AbstractArray)
-    [sprint(showcompact, ix) for ix in x]
+function as_string(x)
+    sprint(showcompact, x)
+end
+function as_string(x::AbstractArray)
+    broadcast(as_string, x)
 end
 
 """
@@ -104,7 +107,7 @@ function table{T}(x::AbstractArray{T})
     res=StatsBase.countmap(x)
     names=collect(keys(res))
 
-    FreqVector(collect(values(res)), asstring(names))
+    FreqVector(collect(values(res)), as_string(names))
 end
 
 """
@@ -116,5 +119,5 @@ function table{T,S}(x::AbstractArray{T}, y::AbstractArray{S})
     xf=DataFrames.pool(x)
     yf=DataFrames.pool(y)
     res=StatsBase.counts(xf.refs, yf.refs)
-    FreqMatrix(res, asstring(xf.pool), asstring(yf.pool))
+    FreqMatrix(res, as_string(xf.pool), as_string(yf.pool))
 end
