@@ -22,4 +22,5 @@ include("range.jl")
 include("dim.jl")
 include("outer.jl")
 include("duplicated.jl")
+include("findinterval.jl")
 end # module
