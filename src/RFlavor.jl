@@ -11,7 +11,7 @@ export show
 import Base.isempty
 export isempty
 
-export rep, table, asstring, outer, duplicated
+export rep, table, asstring, outer, duplicated, matrix
 
 include("rep.jl")
 include("table.jl")
@@ -23,4 +23,5 @@ include("dim.jl")
 include("outer.jl")
 include("duplicated.jl")
 include("findinterval.jl")
+include("matrix.jl")
 end # module

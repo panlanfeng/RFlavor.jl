@@ -24,3 +24,4 @@
 - [x] head
 - [x] tail
 - [x] duplicated
+- [x] matrix
