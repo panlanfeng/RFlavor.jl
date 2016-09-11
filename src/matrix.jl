@@ -43,9 +43,9 @@ function matrix(x::AbstractVector; ncol::Integer = 1, byrow::Bool = false)
 end
 
 function matrix(x::Real, nrow::Integer, ncol::Integer = 1)
-    fill(float(x), (Int(nrow), Int(ncol)))
+    fill(float(x), (nrow, ncol))
 end
 
 function matrix(x::Real; nrow::Integer = 1, ncol::Integer = 1)
-    matrix(x, Int(nrow), Int(ncol))
+    matrix(x, nrow, ncol)
 end
