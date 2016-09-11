@@ -10,7 +10,7 @@ findinterval(1, [0.5, 1, 2])
 ```
 """
 
-function findinterval{T<:Number}(x::AbstractVector{T}, vec::AbstractVector{T})
+function findinterval{S<:Number, T<:Number}(x::AbstractVector{S}, vec::AbstractVector{T})
     if !issorted(vec)
         error("Error in findInterval:
           'vec' must be sorted non-decreasingly.")
@@ -23,7 +23,7 @@ function findinterval{T<:Number}(x::AbstractVector{T}, vec::AbstractVector{T})
     end
 end
 
-function findinterval(x::Number, vec::AbstractVector)
+function findinterval{T<:Number}(x::Number, vec::AbstractVector{T})
     if !issorted(vec)
         error("Error in findInterval:
           'vec' must be sorted non-decreasingly.")
@@ -31,4 +31,3 @@ function findinterval(x::Number, vec::AbstractVector)
         return searchsortedlast(vec, x)
     end
 end
-
