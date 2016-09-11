@@ -42,7 +42,7 @@ function matrix(x::AbstractVector; ncol::Integer = 1, byrow::Bool = false)
     matrix(x, Int(length(x)/ncol), ncol, byrow)
 end
 
-function matrix(x::Real, nrow::Integer = 1, ncol::Integer = 1)
+function matrix(x::Real, nrow::Integer, ncol::Integer = 1)
     fill(float(x), (Int(nrow), Int(ncol)))
 end
 
