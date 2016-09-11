@@ -46,6 +46,6 @@ function rep_len(x::AbstractVector, length_out::Integer)
     if nx > length_out
         error("length_out must be longer than x")
     end
-    d = fld1(length_out, nx)
+    d = cld(length_out, nx)
     rep(x, 1, d)[1:length_out]
 end
