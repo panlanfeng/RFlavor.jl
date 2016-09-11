@@ -40,3 +40,12 @@ rep(x::AbstractVector, times::Integer)=Compat.repeat(x, outer=times)
 
 #There seems no way to allow lengths to be union of vector and integer
 rep{T<:Integer}(x::AbstractVector; each::Integer=1, lengths::AbstractVector{T} = fill(each, length(x)), times::Integer = 1) = rep(x, lengths, times)
+
+function rep_len(x::AbstractVector, length_out::Integer)
+    nx = length(x)
+    if nx > length_out
+        error("length_out must be longer than x")
+    end
+    d = fld1(length_out, nx)
+    rep(x, 1, d)[1:length_out]
+end

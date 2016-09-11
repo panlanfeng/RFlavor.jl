@@ -11,7 +11,7 @@ export show
 import Base.isempty
 export isempty
 
-export rep, table, asstring, outer, duplicated, matrix
+export rep, rep_len, table, asstring, outer, duplicated, matrix
 
 include("rep.jl")
 include("table.jl")
