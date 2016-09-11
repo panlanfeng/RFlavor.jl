@@ -26,9 +26,9 @@ matrix(1:5, ncol=2) # error
 function matrix(x::AbstractVector, nrow::Integer, ncol::Integer, byrow::Bool = false)
     length(x) % nrow == 0 && length(x) == nrow*ncol || throw(DimensionMismatch("Lenth of `x` is not a multiple of `nrow` and `ncol`."))
     if byrow
-        return reshape(float(x), (Int(ncol), Int(nrow)))'
+        return reshape(x, (Int(ncol), Int(nrow)))'
     else
-        return reshape(float(x), (Int(nrow), Int(ncol)))
+        return reshape(x, (Int(nrow), Int(ncol)))
     end
 end
 
@@ -48,4 +48,4 @@ end
 
 function matrix(x::Real; nrow::Integer = 1, ncol::Integer = 1)
     matrix(x, Int(nrow), Int(ncol))
-end    
+end
