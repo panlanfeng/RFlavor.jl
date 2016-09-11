@@ -16,44 +16,36 @@ matrix(1, 5)
 matrix(1.0, 4, 2)
 matrix(rand(10), 5)
 matrix(1:10, 5)
-# matrix(1:10, nrow = 5) # Error
 matrix(1:10, ncol = 2)
-# matrix(1:10, nrow = 5, ncol = 2) # Error
-matrix(1:10, 5, byrow = false)
-matrix(1:5,2)
+matrix(1:10, 5, byrow = true)
+matrix(1:5,2) # error
+matrix(1:5, ncol=2) # error
 ```
 """
 
-function matrix{T <: Real, S <:Real}(x::AbstractVector, nrow::T, ncol::S, byrow::Bool = true)
+function matrix(x::AbstractVector, nrow::Integer, ncol::Integer, byrow::Bool = false)
     length(x) % nrow == 0 && length(x) == nrow*ncol || throw(DimensionMismatch("Lenth of `x` is not a multiple of `nrow` and `ncol`."))
     if byrow
-        return reshape(float(x), (Int(nrow), Int(ncol)))
-    else
         return reshape(float(x), (Int(nrow), Int(ncol)))'
+    else
+        return reshape(float(x), (Int(nrow), Int(ncol)))
     end
 end
 
-# function matrix{T <: Real, S <:Real}(x::AbstractVector; nrow::T = 1,
-#                                      ncol::S = 1, byrow::Bool = true)
-#     matrix(x, nrow, ncol, byrow)
-# end
-
-function matrix{T <: Real}(x::AbstractVector, nrow::T; byrow::Bool = true)
-    matrix(x, nrow, length(x)/nrow, byrow)
+function matrix(x::AbstractVector, nrow::Integer; byrow::Bool = false)
+    length(x) % nrow == 0 || throw(DimensionMismatch("Lenth of `x` is not a multiple of `nrow`."))
+    matrix(x, nrow, Int(length(x)/nrow), byrow)
 end
 
-# function matrix{T <: Real}(x::AbstractVector; nrow::T = 1, byrow::Bool = true)
-#     matrix(x, nrow, length(x)/nrow, byrow)
-# end
-
-function matrix{S <: Real}(x::AbstractVector; ncol::S = 1, byrow::Bool = true)
-    matrix(x, length(x)/ncol, ncol, byrow)
+function matrix(x::AbstractVector; ncol::Integer = 1, byrow::Bool = false)
+    length(x) % ncol == 0 || throw(DimensionMismatch("Lenth of `x` is not a multiple of `ncol`."))
+    matrix(x, Int(length(x)/ncol), ncol, byrow)
 end
 
-function matrix{T <: Real, S <: Real}(x::Real, nrow::T = 1, ncol::S = 1)
+function matrix(x::Real, nrow::Integer = 1, ncol::Integer = 1)
     fill(float(x), (Int(nrow), Int(ncol)))
 end
 
-function matrix{T <: Real, S <: Real}(x::Real; nrow::T = 1, ncol::S = 1)
+function matrix(x::Real; nrow::Integer = 1, ncol::Integer = 1)
     matrix(x, Int(nrow), Int(ncol))
 end    
