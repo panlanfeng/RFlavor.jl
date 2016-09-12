@@ -1,17 +1,27 @@
 module RFlavor
 
 # package code goes here
-import Compat
+using Compat
 import StatsBase, DataFrames
 import StatsBase:IntegerVector, RealVector, IntegerMatrix, RealMatrix
 import DataArrays:DataArray, PooledDataArray
-import DataFrames:pool, DataFrame, Index
-import Base.show
-export show
-import Base.isempty
-export isempty
+import DataFrames:pool, DataFrame, Index, DataVector, add_names, ColumnIndex, gennames, nrow, ncol, names!, rename!, rename
+import Base: show, length, isempty
 
-export rep, rep_len, table, asstring, outer, duplicated, matrix
+
+export rep, rep_len,
+    table, asstring,
+    expand_grid,
+    head, tail,
+    isempty, isnothing,
+    datarange,
+    nrow, ncol,
+    outer,
+    duplicated,
+    findinterval,
+    matrix,
+    List, list, unlist, lapply
+
 
 include("rep.jl")
 include("table.jl")
@@ -24,4 +34,5 @@ include("outer.jl")
 include("duplicated.jl")
 include("findinterval.jl")
 include("matrix.jl")
+include("List.jl")
 end # module
