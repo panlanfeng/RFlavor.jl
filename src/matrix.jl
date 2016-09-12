@@ -26,20 +26,22 @@ matrix(x, ncol = 2, byrow = true)
 
 matrix(x, 5, 2, true)
 matrix(1:5, 2) # dimension does not match error
+matrix(x, 15, 2) # warning: recursively used data
 
-RFlavor.matrix(1, 4)
-RFlavor.matrix(1, 4, 2)
-RFlavor.matrix(2.0, nrow = 4)
-RFlavor.matrix(2.0, nrow = 4, ncol =2)
+matrix(1, 4)
+matrix(1, 4, 2)
+matrix(2.0, nrow = 4)
+matrix(2.0, nrow = 4, ncol =2)
 ```
 """
 
 function matrix(x::AbstractVector, nrow::Integer, ncol::Integer, byrow::Bool = false)
-    length(x) % nrow == 0 && length(x) == nrow*ncol || throw(DimensionMismatch("Lenth of `x` is not a multiple of `nrow` and `ncol`."))
-    if byrow
-        return reshape(x, (ncol, nrow))'
+    length(x) <= nrow*ncol || throw(DimensionMismatch("Lenth of `x` is greater than `nrow*ncol`."))
+    if length(x) == nrow*ncol
+        return byrow ? reshape(x, (ncol, nrow))' : reshape(x, (nrow, ncol))
     else
-        return reshape(x, (nrow, ncol))
+        warn("In matrix(x, $(nrow), $(ncol), $(byrow)): data length [$(length(x))] is not equal to `nrow * ncol` [$(nrow)*$(ncol)], data is recursively used.")
+        return byrow ? reshape(rep_len(x, nrow*ncol), (ncol, nrow))' :  reshape(rep_len(x, nrow*ncol), (nrow, ncol))
     end
 end
 
