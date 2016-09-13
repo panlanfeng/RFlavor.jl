@@ -35,7 +35,7 @@ matrix(2.0, nrow = 4, ncol =2)
 ```
 """
 
-function matrix(x::AbstractVector, nrow::Integer, ncol::Integer, byrow::Bool = false)
+function matrix(x::AbstractVector, nrow::Integer, ncol::Integer, byrow::Bool)
     length(x) <= nrow*ncol || throw(DimensionMismatch("Lenth of `x` is greater than `nrow*ncol`."))
     if length(x) == nrow*ncol
         return byrow ? reshape(x, (ncol, nrow))' : reshape(x, (nrow, ncol))
