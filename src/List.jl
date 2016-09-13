@@ -22,7 +22,7 @@ Base.next(itr::AbstractList, j::Int) = ((_names(itr)[j], itr[j]), j + 1)
 Base.getindex(itr::AbstractList, j::Any) = itr[j]
 
 function Base.map(f::Function, d::AbstractList)
-    res = List()
+    res = list()
     for (n, v) in d
         res[n] = f(v)
     end
@@ -90,7 +90,7 @@ type List <: AbstractList
     end
 end
 
-typealias list List
+#typealias list List
 
 """
     list(args..., kwargs)
@@ -101,11 +101,8 @@ Constructing a `List`.
 ```
 list(rand(2,4), "a", x = list(), y= *)
 ```
-#Warning
-Be careful if creating a list of `Vector{Any}` and a `Index` because of potential confusion. It may create a list from `Vector{Any}` using the `Index` provided. Use keyword arguments instead.
-
 """
-function List(args...; kwargs...)
+function list(args...; kwargs...)
     cnames = gennames(length(args))
     result = List(Any[], Index())
     for i in 1:length(args)
@@ -145,18 +142,19 @@ end
 
 
 """
-    as_list(d)
+    List(d)
 
 Convert `Dit`, `Matrix`, `DataFrame` or `Vector{Any}` to `List`.
 """
-function as_list(columns::Vector{Any},
+function List(columns::Vector{Any},
                    cnames::Vector{Symbol} = gennames(length(columns)))
     return List(columns, Index(cnames))
 end
-as_list(d::Associative)=convert(List, d)
-as_list(d::Dict)=convert(List, d)
-as_list(A::Matrix)=convert(List, A)
-as_list(df::DataFrames.AbstractDataFrame) = convert(List, df)
+List()=List(Any[], Index())
+List(d::Associative)=convert(List, d)
+List(d::Dict)=convert(List, d)
+List(A::Matrix)=convert(List, A)
+List(df::DataFrames.AbstractDataFrame) = convert(List, df)
 
 function show(io::IO, d::List)
     print(io, showindent(d))
@@ -302,7 +300,7 @@ function Base.merge!(df::List, others::AbstractList...)
     end
     return df
 end
-Base.merge(df::List, others::AbstractList...) = merge!(List(), df, others...)
+Base.merge(df::List, others::AbstractList...) = merge!(list(), df, others...)
 ##############################################################################
 ##
 ## Copying
@@ -391,7 +389,7 @@ end
 
 function _List_from_associative(dnames, d::Associative)
     p = length(dnames)
-    p == 0 && return List()
+    p == 0 && return list()
     columns  = Array(Any, p)
     colnames = Array(Symbol, p)
     n = length(d[dnames[1]])
