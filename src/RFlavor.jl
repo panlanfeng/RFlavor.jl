@@ -21,7 +21,8 @@ export rep, rep_len,
     findinterval,
     matrix,
     List, list, unlist, lapply, as_list,
-    seq
+    seq,
+    setequal
 
 
 include("rep.jl")
@@ -37,4 +38,6 @@ include("findinterval.jl")
 include("matrix.jl")
 include("List.jl")
 include("seq.jl")
+include("setequal.jl")
+
 end # module
