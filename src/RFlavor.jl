@@ -5,12 +5,12 @@ using Compat
 import StatsBase, DataFrames
 import StatsBase:IntegerVector, RealVector, IntegerMatrix, RealMatrix
 import DataArrays:DataArray, PooledDataArray
-import DataFrames:pool, DataFrame, Index, DataVector, add_names, ColumnIndex, gennames, nrow, ncol, names!, rename!, rename
+import DataFrames:pool, DataFrame, Index, DataVector, add_names, ColumnIndex, gennames, nrow, ncol, names!, rename!, rename,index
 import Base: show, length, isempty
 
 
 export rep, rep_len,
-    table, asstring,
+    table, as_string,
     expand_grid,
     head, tail,
     isempty, isnothing,
@@ -20,7 +20,7 @@ export rep, rep_len,
     duplicated,
     findinterval,
     matrix,
-    List, list, unlist, lapply
+    List, list, unlist, lapply, as_list
 
 
 include("rep.jl")

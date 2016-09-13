@@ -5,6 +5,8 @@ index(d::AbstractList)=d.colindex
 Base.names(df::AbstractList) = names(index(df))
 _names(x::Index) = x.names
 _names(df::AbstractList) = _names(index(df))
+
+
 Base.length(df::AbstractList) = length(_names(df))
 Base.endof(df::AbstractList) = length(_names(df))
 
@@ -27,14 +29,31 @@ function Base.map(f::Function, d::AbstractList)
     res
 end
 
+"""
+    lapply(d, f, args...; kwargs)
+
+Apply a function on List `d`. `args` and `kwargs` will be passed to `f`.
+
+#Example
+```
+d=as_list(Any[rand(i) for i in 1:10])
+lapply(d, mean)
+```
+"""
 function lapply(d::AbstractList, f::Function, args...; kwargs...)
     map(x->f(x, args...; kwargs...), d)
 end
 
+"""
+    unlist(d, recursive::Bool)
+
+Break the List structure (recursively) and return a `Vector` of `Any`.
+"""
 function unlist(d::AbstractList, recursive::Bool=false)
+    !recursive && return columns(d)
     res = Any[]
     for (k, v) in d
-        if isa(v, AbstractList) && recursive
+        if isa(v, AbstractList)
             append!(res, unlist(v, recursive))
         else
             push!(res, v)
@@ -73,9 +92,71 @@ end
 
 typealias list List
 
+"""
+    list(args..., kwargs)
+
+Constructing a `List`.
+
+#Example
+```
+list(rand(2,4), "a", x = list(), y= *)
+```
+#Warning
+Be careful if creating a list of `Vector{Any}` and a `Index` because of potential confusion. It may create a list from `Vector{Any}` using the `Index` provided. Use keyword arguments instead.
+
+"""
+function List(args...; kwargs...)
+    cnames = gennames(length(args))
+    result = List(Any[], Index())
+    for i in 1:length(args)
+        result[cnames[i]] = args[i]
+    end
+    for (k, v) in kwargs
+        result[k] = v
+    end
+    return result
+end
+
+function Base.convert(::Type{List}, d::Associative)
+    dnames = collect(keys(d))
+    return _List_from_associative(dnames, d)
+end
+
+# A Dict is not sorted or otherwise ordered, and it's nicer to return a
+# List which is ordered in some way
+function Base.convert(::Type{List}, d::Dict)
+    dnames = collect(keys(d))
+    sort!(dnames)
+    return _List_from_associative(dnames, d)
+end
+
+function Base.convert(::Type{List}, A::Matrix)
+    n = size(A, 2)
+    cols = Array(Any, n)
+    for i in 1:n
+        cols[i] = A[:, i]
+    end
+    return List(cols, Index(gennames(n)))
+end
+
 function Base.convert(::Type{List}, df::DataFrames.AbstractDataFrame)
     List(df.columns, df.colindex)
 end
+
+
+"""
+    as_list(d)
+
+Convert `Dit`, `Matrix`, `DataFrame` or `Vector{Any}` to `List`.
+"""
+function as_list(columns::Vector{Any},
+                   cnames::Vector{Symbol} = gennames(length(columns)))
+    return List(columns, Index(cnames))
+end
+as_list(d::Associative)=convert(List, d)
+as_list(d::Dict)=convert(List, d)
+as_list(A::Matrix)=convert(List, A)
+as_list(df::DataFrames.AbstractDataFrame) = convert(List, df)
 
 function show(io::IO, d::List)
     print(io, showindent(d))
@@ -95,21 +176,8 @@ function showindent(d::List, indent::String="")
     res
 end
 
-function List(; kwargs...)
-    result = List(Any[], Index())
-    for (k, v) in kwargs
-        result[k] = v
-    end
-    return result
-end
-function List(columns::Vector{Any},
-                   cnames::Vector{Symbol} = gennames(length(columns)))
-    return List(columns, Index(cnames))
-end
-
 index(df::List) = df.colindex
 columns(df::List) = df.columns
-
 
 function Base.getindex(df::List, col_ind::ColumnIndex)
     selected_column = index(df)[col_ind]
@@ -320,14 +388,6 @@ function Base.append!(df1::List, df2::AbstractList)
    return df1
 end
 
-function Base.convert(::Type{List}, A::Matrix)
-    n = size(A, 2)
-    cols = Array(Any, n)
-    for i in 1:n
-        cols[i] = A[:, i]
-    end
-    return List(cols, Index(gennames(n)))
-end
 
 function _List_from_associative(dnames, d::Associative)
     p = length(dnames)
@@ -342,19 +402,6 @@ function _List_from_associative(dnames, d::Associative)
         colnames[j] = Symbol(name)
     end
     return List(columns, Index(colnames))
-end
-
-function Base.convert(::Type{List}, d::Associative)
-    dnames = collect(keys(d))
-    return _List_from_associative(dnames, d)
-end
-
-# A Dict is not sorted or otherwise ordered, and it's nicer to return a
-# List which is ordered in some way
-function Base.convert(::Type{List}, d::Dict)
-    dnames = collect(keys(d))
-    sort!(dnames)
-    return _List_from_associative(dnames, d)
 end
 
 
