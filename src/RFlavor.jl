@@ -20,7 +20,8 @@ export rep, rep_len,
     duplicated,
     findinterval,
     matrix,
-    List, list, unlist, lapply, as_list
+    List, list, unlist, lapply, as_list,
+    seq
 
 
 include("rep.jl")
@@ -35,4 +36,5 @@ include("duplicated.jl")
 include("findinterval.jl")
 include("matrix.jl")
 include("List.jl")
+include("seq.jl")
 end # module
