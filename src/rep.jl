@@ -38,8 +38,20 @@ rep(x::AbstractVector, each::Integer, times::Integer)=Compat.repeat(x, inner=eac
 
 rep(x::AbstractVector, times::Integer)=Compat.repeat(x, outer=times)
 
-#There seems no way to allow lengths to be union of vector and integer
-rep{T<:Integer}(x::AbstractVector; each::Integer=1, lengths::AbstractVector{T} = fill(each, length(x)), times::Integer = 1) = rep(x, lengths, times)
+function rep(x::AbstractVector; kwargs...)
+    kw_dict = Dict(kwargs)
+    times = get(kw_dict, :times, 1)
+    each_has = haskey(kw_dict, :each)
+    lengths_has = haskey(kw_dict, :lengths)
+    each_has && lengths_has && warn("Keywords `each` and `lengths` are both specified. `each` is suppressed.")
+    if lengths_has
+        lengths = get(kw_dict, :lengths, ones(Int, length(x)))
+        return rep(x, lengths, times)
+    else
+        each = get(kw_dict, :each, 1)
+        return rep(x, each, times)
+    end
+end
 
 function rep_len(x::AbstractVector, length_out::Integer)
     nx = length(x)
