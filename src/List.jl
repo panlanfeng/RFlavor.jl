@@ -19,7 +19,7 @@ Base.start(itr::AbstractList) = 1
 #Base.length(itr::AbstractList) = length(itr)
 Base.done(itr::AbstractList, j::Int) = j > length(itr)
 Base.next(itr::AbstractList, j::Int) = ((_names(itr)[j], itr[j]), j + 1)
-Base.getindex(itr::AbstractList, j::Any) = itr[j]
+#Base.getindex(itr::AbstractList, j::Any) = itr[j]
 
 function Base.map(f::Function, d::AbstractList)
     res = list()
