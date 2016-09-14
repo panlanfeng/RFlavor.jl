@@ -22,7 +22,8 @@ export rep, rep_len,
     matrix,
     List, list, unlist, lapply, as_list,
     seq,
-    setequal
+    setequal,
+    sweep
 
 
 include("rep.jl")
@@ -39,5 +40,6 @@ include("matrix.jl")
 include("List.jl")
 include("seq.jl")
 include("setequal.jl")
+include("sweep.jl")
 
 end # module
