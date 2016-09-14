@@ -22,3 +22,5 @@ The RFlavor.jl package is licensed under the MIT "Expat" License:
 >
 
 This package contains modified code from DataArrays.jl package which is licenced under [MIT license](https://github.com/JuliaStats/DataArrays.jl/blob/master/LICENSE.md).
+
+This package contains modified code from DataFrames.jl package which is licenced under [MIT license](https://github.com/JuliaStats/DataFrames.jl/blob/master/LICENSE.md).
