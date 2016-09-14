@@ -31,7 +31,7 @@ function sweep(x::AbstractArray, MARGIN::AbstractVector, STATS::AbstractArray, F
     pe = [MARGIN, setdiff(dimorder, MARGIN);]
     outer = sz[pe]
     outer[1:length(MARGIN)]=1
-    xstat=repeat(STATS, outer=outer)
+    xstat=Compat.repeat(STATS, outer=outer)
     xstat=permutedims(xstat, (sortperm(pe)...))
     FUN(x, xstat; kwargs...)
 end
