@@ -282,15 +282,13 @@ Base.setindex!(df::List, v, ::Colon) = (df[1:length(df)] = v; df)
 
 Base.empty!(df::List) = (empty!(df.columns); empty!(index(df)); df)
 
-function Base.insert!(df::List, col_ind::Int, item::AbstractVector, name::Symbol)
+function Base.insert!(df::List, col_ind::Int, item, name::Symbol)
     0 < col_ind <= length(df) + 1 || throw(BoundsError())
 
     insert!(index(df), col_ind, name)
     insert!(df.columns, col_ind, item)
     df
 end
-Base.insert!(df::List, col_ind::Int, item, name::Symbol) =
-    insert!(df, col_ind, item, name)
 
 function Base.merge!(df::List, others::AbstractList...)
     for other in others
@@ -348,17 +346,15 @@ Base.delete!(df::List, c::Any) = delete!(df, index(df)[c])
 ##############################################################################
 
 # hcat! for 2 arguments
-function hcat!(df1::List, df2::AbstractList)
-    u = add_names(index(df1), index(df2))
-    for i in 1:length(u)
-        df1[u[i]] = df2[i]
-    end
-
-    return df1
-end
-hcat!{T}(df::List, x::DataVector{T}) = hcat!(df, List(Any[x]))
-hcat!{T}(df::List, x::Vector{T}) = hcat!(df, List(Any[DataArray(x)]))
-hcat!{T}(df::List, x::T) = hcat!(df, List(Any[DataArray([x])]))
+# function hcat!(df1::List, df2::AbstractList)
+#     u = add_names(index(df1), index(df2))
+#     for i in 1:length(u)
+#         df1[u[i]] = df2[i]
+#     end
+#     return df1
+# end
+hcat!(df::List, x::List) = merge!(df, x)
+hcat!(df::List, x) = (df[end+1]=x;df)
 
 # hcat! for 1-n arguments
 hcat!(df::List) = df
@@ -368,100 +364,15 @@ hcat!(a::List, b, c...) = hcat!(hcat!(a, b), c...)
 Base.hcat(df::List, x) = hcat!(copy(df), x)
 
 
-##############################################################################
-##
-## Pooling
-##
-##############################################################################
-
-
-function Base.append!(df1::List, df2::AbstractList)
-   _names(df1) == _names(df2) || error("Column names do not match")
-   eltypes(df1) == eltypes(df2) || error("Column eltypes do not match")
-   ncols = length(df1)
-   # TODO: This needs to be a sort of transaction to be 100% safe
-   for j in 1:ncols
-       append!(df1[j], df2[j])
-   end
-   return df1
-end
-
-
 function _List_from_associative(dnames, d::Associative)
     p = length(dnames)
     p == 0 && return list()
     columns  = Array(Any, p)
     colnames = Array(Symbol, p)
-    n = length(d[dnames[1]])
     for j in 1:p
         name = dnames[j]
-        col = d[name]
-        columns[j] = DataArray(col) ## Does not work when col is a number or List
+        columns[j] = d[name]
         colnames[j] = Symbol(name)
     end
     return List(columns, Index(colnames))
-end
-
-
-##############################################################################
-##
-## push! a row onto a List
-##
-##############################################################################
-
-function Base.push!(df::List, associative::Associative{Symbol,Any})
-    i = 1
-    for nm in _names(df)
-        try
-            push!(df[nm], associative[nm])
-        catch
-            #clean up partial row
-            for j in 1:(i - 1)
-                pop!(df[_names(df)[j]])
-            end
-            msg = "Error adding value to column :$nm."
-            throw(ArgumentError(msg))
-        end
-        i += 1
-    end
-end
-
-function Base.push!(df::List, associative::Associative)
-    i = 1
-    for nm in _names(df)
-        try
-            val = get(() -> associative[string(nm)], associative, nm)
-            push!(df[nm], val)
-        catch
-            #clean up partial row
-            for j in 1:(i - 1)
-                pop!(df[_names(df)[j]])
-            end
-            msg = "Error adding value to column :$nm."
-            throw(ArgumentError(msg))
-        end
-        i += 1
-    end
-end
-
-# array and tuple like collections
-function Base.push!(df::List, iterable::Any)
-    if length(iterable) != length(df.columns)
-        msg = "Length of iterable does not match List column count."
-        throw(ArgumentError(msg))
-    end
-    i = 1
-    for t in iterable
-        try
-            push!(df.columns[i], t)
-        catch
-            #clean up partial row
-            for j in 1:(i - 1)
-                pop!(df.columns[j])
-            end
-            msg = "Error adding $t to column :$(_names(df)[i]). Possible type mis-match."
-            throw(ArgumentError(msg))
-        end
-        i += 1
-    end
 end

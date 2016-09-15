@@ -17,7 +17,8 @@ py=List(Any[rand(i) for i in 1:10])
 names!(li, [:x1, :x2, :x3, :x4])
 @test names(li) == [:x1, :x2, :x3, :x4]
 
-# ERROR: dict = Dict("a" => 1, "b" => 2, "c" => 3)
+dict = Dict("a" => 1, "b" => 2, "c" => 3)
+@test typeof(List(dict)) == RFlavor.List
 dict = Dict("a" => 1:2, "b" => [:x, :y], "c" => seq(1,2,.1))
 @test typeof(List(dict)) == RFlavor.List
 
@@ -27,4 +28,26 @@ mat = rand(5,2)
 df = DataFrame(x=rand(10), y=rand(10))
 @test typeof(List(df)) == RFlavor.List
 
-## TOTO: push! definition might be problematic
+li[:x5]=rand(5)
+@test names(li) == [:x1, :x2, :x3, :x4, :x5]
+li[6]=rand(5)
+@test length(li) == 6
+li[7:8]="a"
+@test length(li)==8
+li[:]="b"
+@test all( unlist(lapply(li, x->x=="b")) )
+li[[true, false, true]] = "c"
+@test li[1]=="c" && li[3] == "c"
+
+
+empty!(li)
+@test isempty(li)
+insert!(li, 1, "abc",:x1)
+@test length(li)==1
+merge!(li, li2)
+@test length(li)==7
+
+delete!(li, 2)
+@test length(li)==6
+
+@test length(hcat(li, rand(4)))==7
