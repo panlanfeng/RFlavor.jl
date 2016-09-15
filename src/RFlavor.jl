@@ -5,7 +5,7 @@ using Compat
 import StatsBase, DataFrames
 import StatsBase:IntegerVector, RealVector, IntegerMatrix, RealMatrix
 import DataArrays:DataArray, PooledDataArray
-import DataFrames:pool, DataFrame, Index, DataVector, add_names, ColumnIndex, gennames, nrow, ncol, names!, rename!, rename,index
+import DataFrames:pool, DataFrame, Index, DataVector, add_names, ColumnIndex, gennames, nrow, ncol, names!, rename!, rename, index
 import Base: show, length, isempty
 
 

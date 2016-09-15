@@ -396,7 +396,7 @@ function _List_from_associative(dnames, d::Associative)
     for j in 1:p
         name = dnames[j]
         col = d[name]
-        columns[j] = DataArray(col)
+        columns[j] = DataArray(col) ## Does not work when col is a number or List
         colnames[j] = Symbol(name)
     end
     return List(columns, Index(colnames))
