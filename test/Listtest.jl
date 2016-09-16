@@ -30,6 +30,11 @@ df = DataFrame(x=rand(10), y=rand(10))
 
 li[:x5]=rand(5)
 @test names(li) == [:x1, :x2, :x3, :x4, :x5]
+licopy=deepcopy(li)
+names!(licopy, [:y1,:y2,:y3,:y4,:y5])
+@test names(licopy) == [:y1,:y2,:y3,:y4,:y5]
+@test names(rename(licopy, [:y1,:y2,:y3,:y4,:y5],[:x1, :x2, :x3, :x4, :x5])) == [:x1, :x2, :x3, :x4, :x5]
+
 li[6]=rand(5)
 @test length(li) == 6
 li[7:8]="a"
@@ -51,3 +56,15 @@ delete!(li, 2)
 @test length(li)==6
 
 @test length(hcat(li, rand(4)))==7
+@test length(hcat(li))==6
+@test length(hcat(li, rand(4), li2))==8
+
+li3copy=copy(li3)
+empty!(li3)
+@test length(li3copy)==2
+
+li3[1:2]=li3copy
+@test length(li3)==2
+
+@test typeof(li[1:1]) == List
+@test typeof(li[1]) != List

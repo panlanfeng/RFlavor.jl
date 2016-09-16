@@ -22,7 +22,7 @@ export rep, rep_len,
     duplicated,
     findinterval,
     matrix,
-    List, list, unlist, lapply, as_list,
+    List, list, unlist, lapply, as_list, rename!, rename,
     seq,
     setequal,
     sweep

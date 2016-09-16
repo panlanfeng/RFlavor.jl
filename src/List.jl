@@ -362,7 +362,8 @@ hcat!(a::List, b, c...) = hcat!(hcat!(a, b), c...)
 
 # hcat
 Base.hcat(df::List, x) = hcat!(copy(df), x)
-
+Base.hcat(df::List) = hcat!(copy(df))
+Base.hcat(a::List, b, c...) = hcat!(hcat!(copy(a), b), c...)
 
 function _List_from_associative(dnames, d::Associative)
     p = length(dnames)
