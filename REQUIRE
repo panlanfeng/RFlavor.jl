@@ -3,4 +3,6 @@ StatsBase
 Distributions
 DataArrays
 DataFrames
+FreqTables
+NamedArrays
 Compat
