@@ -6,4 +6,11 @@ srand(2016);
 
 using DataFrames
 xf = pool(sample(1:10, 100));
-@test RFlavor.datarange(xf)==collect(1:10)
+@test setequal(RFlavor.datarange(xf),collect(1:10))
+
+xb=rand(100).>0.5;
+@test setequal(datarange(xb), [true, false])
+
+@test datarange(DataArray(rand(3,4)))==(0.011173956574827226,0.8298861361038359)
+
+@test setequal(datarange(sample(1:4, 100)), collect(1:4))
