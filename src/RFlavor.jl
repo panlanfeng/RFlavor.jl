@@ -14,7 +14,7 @@ import Base: show, length, isempty
 export rep, rep_len,
     table, as_string,
     expand_grid,
-    head, tail,
+    #head, tail,
     isempty, isnothing,
     datarange,
     nrow, ncol,
