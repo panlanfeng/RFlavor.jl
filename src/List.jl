@@ -30,21 +30,6 @@ function Base.map(f::Function, d::AbstractList)
 end
 
 """
-    lapply(d, f, args...; kwargs)
-
-Apply a function on List `d`. `args` and `kwargs` will be passed to `f`.
-
-#Example
-```
-d=as_list(Any[rand(i) for i in 1:10])
-lapply(d, mean)
-```
-"""
-function lapply(d::AbstractList, f::Function, args...; kwargs...)
-    map(x->f(x, args...; kwargs...), d)
-end
-
-"""
     unlist(d, recursive::Bool)
 
 Break the List structure (recursively) and return a `Vector` of `Any`.

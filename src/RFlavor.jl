@@ -23,7 +23,7 @@ export rep, rep_len,
     duplicated,
     findinterval,
     matrix,
-    List, list, unlist, lapply, as_list, rename!, rename,
+    List, list, unlist, lapply, sapply, as_list, rename!, rename,
     seq,
     setequal,
     sweep
@@ -46,5 +46,5 @@ include("seq.jl")
 include("setequal.jl")
 include("sweep.jl")
 include("Factor.jl")
-
+include("apply.jl")
 end # module
