@@ -1,6 +1,6 @@
 using DataFrames, StatsBase
 
-li = list(x=rand(10), y = rand(Int, 2,3), df = DataFrame(rand(5,2)),
+li = list(x=rand(100), y = rand(Int, 2,3), df = DataFrame(rand(5,2)),
     fa = pool(sample([true, false], 100)))
 
 li2 = merge(li, list(f1=*, f2=-))
