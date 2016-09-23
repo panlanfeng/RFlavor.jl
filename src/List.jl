@@ -142,21 +142,24 @@ List(A::Matrix)=convert(List, A)
 List(df::DataFrames.AbstractDataFrame) = convert(List, df)
 
 function show(io::IO, d::List)
-    print(io, showindent(d))
+    showindent(io, d)
 end
-function showindent(d::List, indent::String="")
+
+function showindent(io::IO, d::List, indent::String="")
     k = _names(d.colindex)
-    res=sprint(println, indent, "$(length(d)) elements List:")
+    println(io, indent, "$(length(d)) elements List:")
     for i in 1:length(d.columns)
-        res*=sprint(println, indent, "[$i] ", k[i], ": ")
+        println(io, indent, "[$i] ", k[i], ": ")
         if isa(d.columns[i], List)
             indent2 = indent*"    "
-            res*=sprint(println, indent, showindent(d.columns[i], indent2))
+            print(io, indent)
+            showindent(io, d.columns[i], indent2)
         else
-            res*=sprint(println, indent, "    ", d.columns[i])
+            print(io, indent, "    ")
+            show(io, d.columns[i])
+            println(io)
         end
     end
-    res
 end
 
 index(df::List) = df.colindex
