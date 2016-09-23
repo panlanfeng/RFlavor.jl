@@ -5,3 +5,5 @@
 \#*\#
 .DS_Store
 .juliahistory
+docs/build/
+docs/site/
