@@ -3,12 +3,12 @@
 
 Repeat elements of `x` for `lengths` times, and then repeat the whole vector for `times`.
 
-#Arguments
+# Arguments
 * `lengths`: a vector of the same length as `x`, default to `each .* ones(Int, x)`.
 * `each`: an integer, will be suppressed if `lengths` is also given.
 * `times` is an integer.
 
-#Example
+# Example
 ```
 rep(1:4, 1:4, 2)
 rep(1:4, 2)

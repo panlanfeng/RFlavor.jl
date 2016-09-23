@@ -3,7 +3,7 @@
 
 Apply a function on List `d`. `args` and `kwargs` will be passed to `f`.
 
-#Example
+# Example
 ```
 d=as_list(Any[rand(i) for i in 1:10])
 lapply(d, mean)
@@ -19,7 +19,7 @@ end
 
 A user-friendly version and wrapper of `lapply` by default returning an array.
 
-#Example
+# Example
 
 ```
 x = list(a=1:10, beta=exp(-3:3), logic = [true,false, false, true])

@@ -1,7 +1,7 @@
 """
 Generate a long DataFrames containing all combinations of keywords arguments.
 
-#Example
+# Example
 ```
 expand_grid(; x=1:4, y=["a","b"])
 ```
